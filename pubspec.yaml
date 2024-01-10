@@ -40,6 +40,8 @@ dependencies:
   animate_do: ^3.1.2
   shimmer: ^3.0.0
   another_flushbar: ^1.12.30
+  bloc: ^8.1.2
+  meta: ^1.9.1
 
 dev_dependencies:
   flutter_test:
