@@ -5,18 +5,26 @@ sealed class HomeState {}
 
 sealed class HomeActionState extends HomeState {}
 
+
 final class HomeInitial extends HomeState {}
 
 
+class HomeLoadingState extends HomeState {}
 
-class HomeLoadingState extends HomeState{}
+class HomeLoadingSuccessState extends HomeState {
+  final List<HomeProductModel> poducts;
 
-class HomeLoadingSuccessState extends HomeState{}
+  HomeLoadingSuccessState({required this.poducts});
+}
 
 
-class HomeErrorState extends HomeState{}
+class HomeErrorState extends HomeState {}
 
 
-class HomeNavigateToCartPageActionState extends HomeActionState{}
+class HomeNavigateToCartPageActionState extends HomeActionState {}
 
-class HomeNavigateToWishlistPageActionState extends HomeActionState{}
+class HomeNavigateToWishlistPageActionState extends HomeActionState {}
+
+
+class HomeProductCartItemActionState extends HomeActionState{}
+class HomeProductWishedListItemActionState extends HomeActionState{}
