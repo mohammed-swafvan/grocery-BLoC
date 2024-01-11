@@ -13,7 +13,6 @@ class CartSuccessState extends CartState {
   CartSuccessState({required this.cartItems});
 }
 
-
 class CartProductCartItemActionState extends CartActionState {
   final bool isCarted;
 
@@ -24,5 +23,4 @@ class CartProductWishedListItemActionState extends CartActionState {
   final bool isWishListed;
 
   CartProductWishedListItemActionState({required this.isWishListed});
-
 }

@@ -58,7 +58,13 @@ class _CartState extends State<Cart> {
           switch (state.runtimeType) {
             case CartSuccessState:
               final successState = state as CartSuccessState;
+              if (state.cartItems.isEmpty) {
+                return const Center(
+                  child: Text("No items"),
+                );
+              }
               return ListView.builder(
+                padding: const EdgeInsets.only(bottom: 12),
                 itemBuilder: (context, index) => ProductTileWidget(
                   bloc: cartBloc,
                   productModel: successState.cartItems[index],
@@ -67,7 +73,9 @@ class _CartState extends State<Cart> {
                 itemCount: successState.cartItems.length,
               );
             default:
-              return const SizedBox.shrink();
+              return const Center(
+                child: Text("No items"),
+              );
           }
         },
       ),

@@ -31,5 +31,4 @@ class HomeProductWishedListItemActionState extends HomeActionState {
   final bool isWishListed;
 
   HomeProductWishedListItemActionState({required this.isWishListed});
-
 }

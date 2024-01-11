@@ -1,8 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-class Utils{
-  static customSnackBar({required bool isAdding ,required BuildContext context, required String content}) {
+class Utils {
+  static customSnackBar({required bool isAdding, required BuildContext context, required String content}) {
     return Flushbar(
       margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
       borderRadius: BorderRadius.circular(12),

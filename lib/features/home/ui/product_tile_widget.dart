@@ -6,12 +6,20 @@ import 'package:grocery/data/wish_list_items.dart';
 import 'package:grocery/features/cart/bloc/cart_bloc.dart';
 import 'package:grocery/features/home/bloc/home_bloc.dart';
 import 'package:grocery/features/home/model/home_product_model.dart';
+import 'package:grocery/features/wished_list/bloc/wishedlist_bloc.dart';
 
 class ProductTileWidget extends StatefulWidget {
-  const ProductTileWidget({super.key, required this.productModel, required this.bloc, this.isCart = false});
+  const ProductTileWidget({
+    super.key,
+    required this.productModel,
+    required this.bloc,
+    this.isCart = false,
+    this.isWishedList = false,
+  });
   final Bloc bloc;
   final HomeProductModel productModel;
   final bool isCart;
+  final bool isWishedList;
 
   @override
   State<ProductTileWidget> createState() => _ProductTileWidgetState();
@@ -41,6 +49,8 @@ class _ProductTileWidgetState extends State<ProductTileWidget> {
                 onTap: () {
                   if (widget.isCart) {
                     widget.bloc.add(CartProductWishedlistButtonClickedEvent(clickedProduct: widget.productModel));
+                  } else if (widget.isWishedList) {
+                    widget.bloc.add(WishedlistProductWishedlistButtonClickedEvent(clickedProduct: widget.productModel));
                   } else {
                     widget.bloc.add(HomeProductWishedlistButtonClickedEvent(clickedProduct: widget.productModel));
                   }
@@ -62,6 +72,8 @@ class _ProductTileWidgetState extends State<ProductTileWidget> {
                 onTap: () {
                   if (widget.isCart) {
                     widget.bloc.add(CartProductCartButtonClickedEvent(clickedProduct: widget.productModel));
+                  } else if (widget.isWishedList) {
+                    widget.bloc.add(WishedlistProductCartButtonClickedEvent(clickedProduct: widget.productModel));
                   } else {
                     widget.bloc.add(HomeProductCartButtonClickedEvent(clickedProduct: widget.productModel));
                   }

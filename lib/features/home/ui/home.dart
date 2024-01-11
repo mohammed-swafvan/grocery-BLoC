@@ -82,6 +82,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
               body: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 12),
                 itemBuilder: (context, index) => ProductTileWidget(bloc: homeBloc, productModel: successState.poducts[index]),
                 itemCount: successState.poducts.length,
               ),
