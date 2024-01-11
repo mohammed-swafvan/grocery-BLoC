@@ -4,6 +4,7 @@ import 'package:grocery/features/cart/ui/cart.dart';
 import 'package:grocery/features/home/bloc/home_bloc.dart';
 import 'package:grocery/features/home/ui/product_tile_widget.dart';
 import 'package:grocery/features/wished_list/ui/wished_list.dart';
+import 'package:grocery/utils/utils.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -32,6 +33,18 @@ class _HomeState extends State<Home> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const Cart()));
         } else if (state is HomeNavigateToWishlistPageActionState) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const WishedList()));
+        } else if (state is HomeProductCartItemActionState) {
+          Utils.customSnackBar(
+            isAdding: state.isCarted,
+            context: context,
+            content: state.isCarted ? 'Item Added To Cart' : 'Item Removed From Cart',
+          );
+        } else if (state is HomeProductWishedListItemActionState) {
+          Utils.customSnackBar(
+            isAdding: state.isWishListed,
+            context: context,
+            content: state.isWishListed ? 'Item Added To Wished List' : 'Item Removed From Wished List',
+          );
         }
       },
       builder: (context, state) {
@@ -69,7 +82,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
               body: ListView.builder(
-                itemBuilder: (context, index) => ProductTileWidget(homeBloc: homeBloc, productModel: successState.poducts[index]),
+                itemBuilder: (context, index) => ProductTileWidget(bloc: homeBloc, productModel: successState.poducts[index]),
                 itemCount: successState.poducts.length,
               ),
             );

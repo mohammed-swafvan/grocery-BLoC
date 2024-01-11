@@ -1,19 +1,29 @@
+import 'package:bloc/bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery/data/cart_items.dart';
+import 'package:grocery/data/wish_list_items.dart';
+import 'package:grocery/features/cart/bloc/cart_bloc.dart';
 import 'package:grocery/features/home/bloc/home_bloc.dart';
 import 'package:grocery/features/home/model/home_product_model.dart';
 
-class ProductTileWidget extends StatelessWidget {
-  const ProductTileWidget({super.key, required this.productModel, required this.homeBloc});
-  final HomeBloc homeBloc;
+class ProductTileWidget extends StatefulWidget {
+  const ProductTileWidget({super.key, required this.productModel, required this.bloc, this.isCart = false});
+  final Bloc bloc;
   final HomeProductModel productModel;
+  final bool isCart;
 
+  @override
+  State<ProductTileWidget> createState() => _ProductTileWidgetState();
+}
+
+class _ProductTileWidgetState extends State<ProductTileWidget> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      margin: const EdgeInsets.all(10).copyWith(bottom: 0),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(8).copyWith(bottom: 0),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -29,21 +39,46 @@ class ProductTileWidget extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  homeBloc.add(HomeProductWishedlistButtonClickedEvent(clickedProduct: productModel));
+                  if (widget.isCart) {
+                    widget.bloc.add(CartProductWishedlistButtonClickedEvent(clickedProduct: widget.productModel));
+                  } else {
+                    widget.bloc.add(HomeProductWishedlistButtonClickedEvent(clickedProduct: widget.productModel));
+                  }
+                  setState(() {});
                 },
-                child: const Icon(
-                  Icons.favorite_border_outlined,
-                  size: 20,
-                ),
+                child: wishListItems.contains(widget.productModel)
+                    ? const Icon(
+                        Icons.favorite_border_outlined,
+                        size: 20,
+                        color: Colors.teal,
+                      )
+                    : const Icon(
+                        Icons.favorite_border_outlined,
+                        size: 20,
+                        color: Colors.black,
+                      ),
               ),
               InkWell(
                 onTap: () {
-                  homeBloc.add(HomeProductCartButtonClickedEvent(clickedProduct: productModel));
+                  if (widget.isCart) {
+                    widget.bloc.add(CartProductCartButtonClickedEvent(clickedProduct: widget.productModel));
+                  } else {
+                    widget.bloc.add(HomeProductCartButtonClickedEvent(clickedProduct: widget.productModel));
+                  }
+
+                  setState(() {});
                 },
-                child: const Icon(
-                  Icons.shopping_bag_outlined,
-                  size: 20,
-                ),
+                child: cartItems.contains(widget.productModel)
+                    ? const Icon(
+                        Icons.shopping_bag_outlined,
+                        size: 20,
+                        color: Colors.teal,
+                      )
+                    : const Icon(
+                        Icons.shopping_bag_outlined,
+                        size: 20,
+                        color: Colors.black,
+                      ),
               ),
             ],
           ),
@@ -56,7 +91,7 @@ class ProductTileWidget extends StatelessWidget {
                     width: screenWidth / 3.5,
                     height: screenWidth / 3.5,
                     child: CachedNetworkImage(
-                      imageUrl: productModel.imageUrl,
+                      imageUrl: widget.productModel.imageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) {
                         return SizedBox(
@@ -74,7 +109,7 @@ class ProductTileWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    productModel.name,
+                    widget.productModel.name,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -85,16 +120,17 @@ class ProductTileWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      productModel.name,
+                      widget.productModel.name,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 5),
                     Text(
-                      productModel.description,
+                      widget.productModel.description,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 5),
                     Text(
-                      "\$ ${productModel.price}",
+                      "\$ ${widget.productModel.price}",
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),

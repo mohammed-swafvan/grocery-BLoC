@@ -48,12 +48,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeProductCartButtonClickedEvent(HomeProductCartButtonClickedEvent event, Emitter<HomeState> emit) {
-    cartItems.add(event.clickedProduct);
-    emit(HomeProductCartItemActionState());
+    bool isCarted;
+    if (cartItems.contains(event.clickedProduct)) {
+      cartItems.remove(event.clickedProduct);
+      isCarted = false;
+    } else {
+      cartItems.add(event.clickedProduct);
+      isCarted = true;
+    }
+
+    emit(HomeProductCartItemActionState(isCarted: isCarted));
   }
 
   FutureOr<void> homeProductWishedlistButtonClickedEvent(HomeProductWishedlistButtonClickedEvent event, Emitter<HomeState> emit) {
-    wishListItems.add(event.clickedProduct);
-    emit(HomeProductWishedListItemActionState());
+    bool isWisheditem;
+    if (wishListItems.contains(event.clickedProduct)) {
+      wishListItems.remove(event.clickedProduct);
+      isWisheditem = false;
+    } else {
+      wishListItems.add(event.clickedProduct);
+      isWisheditem = true;
+    }
+    emit(HomeProductWishedListItemActionState(isWishListed: isWisheditem));
   }
 }

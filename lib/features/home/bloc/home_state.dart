@@ -5,9 +5,7 @@ sealed class HomeState {}
 
 sealed class HomeActionState extends HomeState {}
 
-
 final class HomeInitial extends HomeState {}
-
 
 class HomeLoadingState extends HomeState {}
 
@@ -17,14 +15,21 @@ class HomeLoadingSuccessState extends HomeState {
   HomeLoadingSuccessState({required this.poducts});
 }
 
-
 class HomeErrorState extends HomeState {}
-
 
 class HomeNavigateToCartPageActionState extends HomeActionState {}
 
 class HomeNavigateToWishlistPageActionState extends HomeActionState {}
 
+class HomeProductCartItemActionState extends HomeActionState {
+  final bool isCarted;
 
-class HomeProductCartItemActionState extends HomeActionState{}
-class HomeProductWishedListItemActionState extends HomeActionState{}
+  HomeProductCartItemActionState({required this.isCarted});
+}
+
+class HomeProductWishedListItemActionState extends HomeActionState {
+  final bool isWishListed;
+
+  HomeProductWishedListItemActionState({required this.isWishListed});
+
+}
